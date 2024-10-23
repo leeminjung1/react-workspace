@@ -7,6 +7,10 @@ const ApiService = {
     return axios.get(`${API_BASE_URL}/post/all`);
   },
 
+  fetchPostsByBoardId(boardId) {
+    return axios.get(`${API_BASE_URL}/post/${boardId}/all`);
+  },
+
   createPost(postData) {
     return axios.post(`${API_BASE_URL}/post`, postData);
   },
@@ -16,6 +20,14 @@ const ApiService = {
       post_id: postId,
       password: password,
     });
+  },
+
+  createBoard(boardData) {
+    return axios.post(`${API_BASE_URL}/board`, boardData);
+  },
+
+  fetchBoards() {
+    return axios.get(`${API_BASE_URL}/board/all`);
   },
 };
 

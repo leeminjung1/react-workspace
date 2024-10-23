@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
 import ApiService from "../services/ApiService";
 import Post from "./Post";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
+  const { boardId } = useParams();
 
   // 모든 게시글 불러오는 함수
   const loadPosts = async () => {
     try {
-      const response = await ApiService.fetchPosts(); //전체 게시글 가져오는 API 호출
+      let response;
+      if (boardId == null) {
+        response = await ApiService.fetchPosts(); //전체 게시글 가져오는 API 호출
+      } else {
+        response = await ApiService.fetchPostsByBoardId(boardId);
+      }
       console.log(response.data);
       setPosts(response.data);
     } catch (error) {
