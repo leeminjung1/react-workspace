@@ -3,12 +3,21 @@ import axios from "axios";
 const API_BASE_URL = "http://localhost:8080/api";
 
 const ApiService = {
+  fetchBoards() {
+    return axios.get(`${API_BASE_URL}/board/all`);
+  },
+
+  createBoard(boardData) {
+    return axios.post(`${API_BASE_URL}/board`, boardData);
+  },
+
   fetchPosts() {
     return axios.get(`${API_BASE_URL}/post/all`);
   },
 
+  //특정 boardId에 대한 게시글 목록을 가져옴
   fetchPostsByBoardId(boardId) {
-    return axios.get(`${API_BASE_URL}/post/${boardId}/all`);
+    return axios.get(`${API_BASE_URL}/post/${boardId}`);
   },
 
   createPost(postData) {
@@ -22,12 +31,12 @@ const ApiService = {
     });
   },
 
-  createBoard(boardData) {
-    return axios.post(`${API_BASE_URL}/board`, boardData);
-  },
-
-  fetchBoards() {
-    return axios.get(`${API_BASE_URL}/board/all`);
+  // 게시글 삭제 API 호출
+  deletePost(postId, password) {
+    return axios.post(`${API_BASE_URL}/post/delete`, {
+      post_id: postId, // 서버에서 기대하는 post_id
+      password: password, // 비밀번호 전달
+    });
   },
 };
 

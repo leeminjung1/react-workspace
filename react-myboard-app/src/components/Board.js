@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 const Board = ({ board }) => {
   const navigate = useNavigate();
 
-  // 게시글 클릭 시 모달 창 표시
   const handleClick = () => {
     ApiService.fetchPostsByBoardId(board.board_id);
     navigate(`/${board.board_id}/posts`);
