@@ -72,7 +72,8 @@ const PostDetail = () => {
       //삭제
       if (actionType === "delete") {
         await ApiService.deletePost(id, password);
-        navigate(`/board/${post.board_id}`); // 삭제 후 게시글 목록으로 이동
+        // navigate(`/board/${post.board_id}`); // 삭제 후 게시글 목록으로 이동
+        navigate("/posts", { state: location.state.boardId });
       }
       //수정
       else if (actionType === "edit") {
