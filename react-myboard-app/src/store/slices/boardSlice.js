@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const boardSlice = createSlice({
+const boardSlide = createSlice({
   name: "boardState",
   initialState: {
     boardId: null,
@@ -12,5 +12,5 @@ const boardSlice = createSlice({
   },
 });
 
-export const { setBoardId } = boardSlice.actions;
-export default boardSlice.reducer;
+export const { setBoardId } = boardSlide.actions;
+export default boardSlide.reducer;

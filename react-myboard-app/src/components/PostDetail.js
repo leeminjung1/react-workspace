@@ -10,6 +10,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { deletePost } from "../store/slices/postSlice";
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -20,6 +22,7 @@ const PostDetail = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const location = useLocation(); // 비밀번호 상태 가져오기
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // 모달 스타일
   const modalStyle = {
@@ -71,15 +74,22 @@ const PostDetail = () => {
     try {
       //삭제
       if (actionType === "delete") {
-        await ApiService.deletePost(id, password);
-        // navigate(`/board/${post.board_id}`); // 삭제 후 게시글 목록으로 이동
-        navigate("/posts", { state: location.state.boardId });
+        // await ApiService.deletePost(id, password);
+        // navigate("/posts"); // 삭제 후 게시글 목록으로 이동
+        const resultAction = await dispatch(
+          deletePost({ postId: id, password })
+        );
+        if (deletePost.fulfilled.match(resultAction)) {
+          navigate("/posts"); // 삭제 후 게시글 목록으로 이동
+        } else {
+          setErrorMessage("삭제에 실패했습니다. 다시 시도해주세요.");
+        }
       }
       //수정
       else if (actionType === "edit") {
         // 수정 페이지로 이동 (비밀번호와 boardId를 상태로 전달)
         navigate(`/edit-post/${id}`, {
-          state: { password, boardId: post.board_id },
+          state: { password },
         });
       }
     } catch (error) {
@@ -102,7 +112,13 @@ const PostDetail = () => {
 
       <Grid container spacing={2}>
         <Grid item>
-          <Button onClick={() => {}}>수정하기</Button>
+          <Button
+            onClick={() => {
+              handleActionClick("edit");
+            }}
+          >
+            수정하기
+          </Button>
         </Grid>
         <Grid item>
           <Button
@@ -114,11 +130,8 @@ const PostDetail = () => {
           </Button>
         </Grid>
         <Grid item>
-          <Button
-            variant="outlined"
-            onClick={() => navigate(`/board/${post.board_id}`)}
-          >
-            목록으로 가기 {location.state.boardId}
+          <Button variant="outlined" onClick={() => navigate("/posts")}>
+            목록으로 가기
           </Button>
         </Grid>
       </Grid>

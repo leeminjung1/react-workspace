@@ -26,8 +26,8 @@ const PostList = () => {
   }, [boardId]);
 
   const handleCreatePost = (boardId) => {
-    navigate(`/create-post`, { state: { boardId } });
-    // navigate("create-post");
+    //navigate.apply(`/create-post`, { state: { boardId } });
+    navigate("/create-post");
   };
 
   return (
